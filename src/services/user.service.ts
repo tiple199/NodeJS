@@ -4,9 +4,11 @@ import getConnection from "config/database";
 const handleCreateUser =  async (fullName: string, email: string, address: string) => {
   const user = await prisma.user.create({ 
     data: {
-      name: fullName,
-      email: email,
-      address: address
+      fullName: fullName,
+      username: email,
+      address: address,
+      password: "defaultpassword",
+      accountType: "standard"
     }
   })
   return user;
@@ -15,6 +17,10 @@ const handleCreateUser =  async (fullName: string, email: string, address: strin
 const getAllUsers = async () => {
     const users = await prisma.user.findMany();
     return users;
+}
+const getAllRoles = async () => {
+    const roles = await prisma.role.findMany();
+    return roles;
 }
 
 const handleDeleteUser = async (id: string) => {
@@ -35,12 +41,15 @@ const updateUserById = async (id: string,email: string, address: string, fullNam
   const updatedUser = await prisma.user.update({
     where: { id: Number(id) },
     data: {
-      name: fullName,
-      email: email,
-      address: address
+
+      fullName: fullName,
+      username: email,
+      address: address,
+      password: "defaultpassword",
+      accountType: "standard"
     }
 })
   return updatedUser;
 };
 
-export { handleCreateUser,getAllUsers,handleDeleteUser,getUserById,updateUserById };
+export { handleCreateUser,getAllUsers,handleDeleteUser,getUserById,updateUserById,getAllRoles };

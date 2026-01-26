@@ -15,8 +15,49 @@ datasource db {
 
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name    String?   @db.VarChar(255)
-  email   String?   @db.VarChar(255)
-  address  String?   @db.VarChar(255)
+  @@map("users")
+  id		Int      @id @default(autoincrement())
+  username	String   @db.VarChar(255)
+  password	String   @db.VarChar(255)
+  fullName	String?   @db.VarChar(255)
+  address	String?   @db.VarChar(255)
+  phone		String?   @db.VarChar(255)
+  accountType	String   @db.VarChar(50)
+  avatar		String?   @db.VarChar(255)
 }
+model Role {
+  @@map("roles")
+  id		Int      @id @default(autoincrement())
+  name	String   @db.VarChar(100)
+  description	String   @db.VarChar(255)
+}
+model Order {
+  @@map("orders")
+  id		Int      @id @default(autoincrement())
+  totalPrice	Int  
+}
+model Product {
+  @@map("products")
+
+  id		Int      @id @default(autoincrement())
+  name		String   @db.VarChar(255)
+  price		Int
+  image		String   @db.VarChar(255)
+  detailDesc	String   @db.VarChar(255)
+  shortDesc	String   @db.VarChar(255)
+  quantity	Int
+  sold		Int
+  factory	String   @db.VarChar(255)
+  target		String   @db.VarChar(255)
+}
+// model User {
+//   @@map("users")
+//   id		Int      @id @default(autoincrement())
+//   username	String   @db.VarChar(255)
+//   password	String   @db.VarChar(255)
+//   fullName	String?   @db.VarChar(255)
+//   address	String?   @db.VarChar(255)
+//   phone		String?   @db.VarChar(255)
+//   accountType	String   @db.VarChar(50)
+//   avatar		String?   @db.VarChar(255)
+// }

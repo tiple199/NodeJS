@@ -1,6 +1,5 @@
-import { log } from "console";
 import { Request, Response } from "express";
-import { getAllUsers, getUserById, handleCreateUser, handleDeleteUser,updateUserById } from "services/user.service";
+import {getAllUsers, getUserById, handleDeleteUser,updateUserById } from "services/user.service";
 const getHomePage = async (req: Request,res: Response) => {
     const users = await getAllUsers();
     
@@ -8,13 +7,14 @@ const getHomePage = async (req: Request,res: Response) => {
         users : users
     });
 }
-const getCreateUserPage = (req: Request,res: Response) => {
-    res.render("create-user");
-}
+// const getCreateUserPage = async (req: Request,res: Response) => {
+//     const roles = await getAllRoles();
+//     res.render("create-user",{roles:roles});
+// }
 const postCreateUser = async (req: Request,res: Response) => {
-    const {fullName, email, address} = req.body;
+    const {fullName, username, address,phone,role} = req.body;
 
-    const a = await handleCreateUser(fullName, email, address);
+    // const a = await handleCreateUser(fullName, username, address);
     res.redirect("/");
 }
 const postDeleteUser = async (req: Request,res: Response) => {
@@ -36,4 +36,4 @@ const postUpdateUser = async (req: Request,res: Response) => {
 
 
 
-export { getHomePage,getCreateUserPage,postCreateUser,postDeleteUser,getViewUser,postUpdateUser };
+export { getHomePage,postCreateUser,postDeleteUser,getViewUser,postUpdateUser };

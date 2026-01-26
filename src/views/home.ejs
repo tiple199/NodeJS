@@ -14,12 +14,7 @@
 </head>
 <body>
     <div style="margin: 25px;">
-     <div style="display: flex;justify-content: space-between;align-items: center;">
-         <h1>List Users:</h1>
-          <div>
-              <a href="/create-user" class="btn btn-warning">Create a new user</a>
-          </div>
-     </div>
+     
      <hr>
      <div>
         <table class="table table-hover table-bordered">
@@ -35,8 +30,8 @@
                     
                     <tr>
                         <td><%= user.id %></td>
-                        <td><%= user.name %></td>
-                        <td><%= user.email %></td>
+                        <td><%= user.fullName %></td>
+                        <td><%= user.username %></td>
                         <td><%= user.address %></td>
                         <td>
                             <div style="display: flex;gap: 10px;">
