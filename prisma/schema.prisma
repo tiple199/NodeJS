@@ -24,12 +24,16 @@ model User {
   phone		String?   @db.VarChar(255)
   accountType	String   @db.VarChar(50)
   avatar		String?   @db.VarChar(255)
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
 }
 model Role {
   @@map("roles")
   id		Int      @id @default(autoincrement())
   name	String   @db.VarChar(100)
   description	String   @db.VarChar(255)
+  users  User[]
 }
 model Order {
   @@map("orders")
