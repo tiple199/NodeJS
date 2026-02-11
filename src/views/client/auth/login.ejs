@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login - Laptopshop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/client/css/style.css" rel="stylesheet">
+    <style>
+        h1 {
+            color: #81c408;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="margin-left: 100px;margin-top: 50px;"><a href="/">Laptopshop</a></h1>
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="bg-light rounded p-5">
+                        <h1 class="text-center mb-4">Login</h1>
+                        <form action="/login" method="POST">
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Địa chỉ email</label>
+                                <input type="email" class="form-control border-0 py-3" id="email" name="email"
+                                    placeholder="Nhập email của bạn" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control border-0 py-3" id="password" name="password"
+                                    placeholder="Nhập mật khẩu" required>
+                            </div>
+                            <button type="submit"
+                                class="btn btn-primary w-100 py-3 rounded-pill text-white">Login</button>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p class="mb-0">Need an account? <a href="/register" class="text-primary">Sign up?</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/client/js/main.js"></script>
+</body>
+
+</html>

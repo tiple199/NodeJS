@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Register - Laptopshop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/client/css/style.css" rel="stylesheet">
+    <style>
+        h1 {
+            color: #81c408;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="margin-left: 100px;margin-top: 20px;"><a href="/">Laptopshop</a></h1>
+    <div class="container-fluid">
+        <div class="container py-3">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="bg-light rounded p-5">
+                        <% errors.forEach(function(error) { %>
+                            <div class="alert alert-danger mb-3">
+                                <%= error %>
+                            </div>
+                            <% }); %>
+                        <h1 class="text-center mb-4">Register</h1>
+                        <form action="/register" method="POST">
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control border-0 py-3" id="fullName" name="fullName"
+                                    placeholder="Nhập họ và tên" value="<%=oldData.fullName%>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" class="form-control border-0 py-3" id="email" name="email"
+                                    placeholder="Nhập email của bạn" value="<%=oldData.email%>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control border-0 py-3" id="password" name="password"
+                                    placeholder="Nhập mật khẩu" value="<%=oldData.password%>" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control border-0 py-3" value="<%=oldData.confirmPassword%>" id="confirmPassword" name="confirmPassword"
+                                    placeholder="Xác nhận mật khẩu" required>
+                            </div>
+                            <button type="submit"
+                                class="btn btn-primary w-100 py-3 rounded-pill text-white">Register</button>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p class="mb-0">Have an account? <a href="/login" class="text-primary">Go to login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/client/js/main.js"></script>
+</body>
+
+</html>
