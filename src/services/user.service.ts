@@ -7,6 +7,10 @@ const hashPassword = async (planText: string) =>{
   return await bcrypt.hash(planText, saltRounds);
 }
 
+const comparePassword = async (planText: string, hash: string) => {
+  return await bcrypt.compare(planText, hash);
+}
+
 const handleCreateUser =  async (fullName: string, username: string, address: string,phone: string, avatar: string, role: string) => {
   const defaultPassword = await hashPassword('123456');
   const user = await prisma.user.create({ 
@@ -62,4 +66,4 @@ const updateUserById = async (id: string, fullName: string, phone: string, addre
   return updatedUser;
 };
 
-export { handleCreateUser,getAllUsers,handleDeleteUser,getUserById,updateUserById,getAllRoles,hashPassword };
+export { handleCreateUser,getAllUsers,handleDeleteUser,getUserById,updateUserById,getAllRoles,hashPassword,comparePassword };

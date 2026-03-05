@@ -1,9 +1,11 @@
 // const express = require("express");
 import express from "express";
-import webRoutes from "./routes/web";
+import webRoutes from "src/routes/web";
 import 'dotenv/config';
 import initDatabase from "config/seed";
 import * as z from "zod"; 
+import passport from "passport";
+import configPassportLocal from "src/middleware/passport.local";
 const  app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -17,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // config static files
 app.use(express.static("public"));
+// config passport local strategy
+app.use(passport.initialize());
+configPassportLocal();
 
 webRoutes(app);
 
