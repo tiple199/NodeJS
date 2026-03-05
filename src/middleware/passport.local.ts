@@ -2,7 +2,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import { prisma } from "config/client";
-import { comparePassword } from "services/user.service";
+import { comparePassword, getUserById } from "services/user.service";
+import { get } from "http";
 
 const configPassportLocal = () => {
     passport.use(new LocalStrategy({
@@ -30,16 +31,15 @@ const configPassportLocal = () => {
     }
     return cb(null, user);
     }));
+    // dùng để lưu dữ liệu user vào session, mỗi khi có request gửi lên, passport sẽ gọi hàm deserializeUser để lấy dữ liệu user từ session
     passport.serializeUser(function(user: any, cb) {
-      process.nextTick(function() {
         cb(null, { id: user.id, username: user.username });
-      });
     });
 
-    passport.deserializeUser(function(user, cb) {
-      process.nextTick(function() {
-        return cb(null, user);
-      });
+    passport.deserializeUser(async function(user: any, cb) {
+      const {id, username} = user;
+      const userInDb = await getUserById(id);
+        return cb(null, {...userInDb});
     });
 
 }
