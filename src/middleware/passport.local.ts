@@ -1,9 +1,8 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import bcrypt from "bcrypt";
 import { prisma } from "config/client";
-import { comparePassword, getUserById } from "services/user.service";
-import { get } from "http";
+import { comparePassword } from "services/user.service";
+import { getUserWithRoleById } from "services/client/auth.service";
 
 const configPassportLocal = () => {
     passport.use(new LocalStrategy({
@@ -29,7 +28,7 @@ const configPassportLocal = () => {
         // throw new Error("Incorrect password");
         return cb(null, false, { message: "Username/password invalided" });
     }
-    return cb(null, user);
+    return cb(null, user as any);
     }));
     // dùng để lưu dữ liệu user vào session, mỗi khi có request gửi lên, passport sẽ gọi hàm deserializeUser để lấy dữ liệu user từ session
     passport.serializeUser(function(user: any, cb) {
@@ -38,7 +37,7 @@ const configPassportLocal = () => {
 
     passport.deserializeUser(async function(user: any, cb) {
       const {id, username} = user;
-      const userInDb = await getUserById(id);
+      const userInDb = await getUserWithRoleById(id);
         return cb(null, {...userInDb});
     });
 

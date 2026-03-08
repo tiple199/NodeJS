@@ -1,4 +1,4 @@
-// const express = require("express");
+/// <reference path="./types/index.d.ts" />
 import express from "express";
 import webRoutes from "src/routes/web";
 import 'dotenv/config';
@@ -29,12 +29,12 @@ app.use(session({
      maxAge: 7 * 24 * 60 * 60 * 1000 // ms
     },
     secret: 'a santa at nasa',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     store: new PrismaSessionStore(
       new PrismaClient(),
       {
-        checkPeriod: 2 * 60 * 1000,  //ms
+        checkPeriod: 1 * 24 * 60 * 1000,  //ms
         dbRecordIdIsSessionId: true,
         dbRecordIdFunction: undefined,
       }
@@ -46,15 +46,21 @@ app.use(passport.authenticate('session'));
 
 configPassportLocal();
 
+// config global variables
+app.use((req,res,next) => {
+    res.locals.user = req.user || null;
+    next();
+})
+
 webRoutes(app);
 
 // seeding data
 initDatabase();
 
-const mySchema = z.string();
-
-mySchema.parse("Hello Zod");
-// mySchema.parse(12);
+// handle 404 not found
+app.use((req,res) => {
+    res.status(404).render("status/404.ejs");
+})
 
 app.listen(PORT,() => {
     console.log(`My app is running on port: ${PORT}`);    
