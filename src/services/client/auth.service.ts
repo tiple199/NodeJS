@@ -56,4 +56,13 @@ const getUserWithRoleById = async (id: string) => {
   return user;
 }
 
-export { registerNewUser,isEmailExists ,getUserWithRoleById};
+const getUserSumCart = async (id: string) => {
+  const user = await prisma.cart.findUnique({
+    where: { id: Number(id) },
+    
+  });
+  return user?.sum ?? 0;
+}
+
+
+export { registerNewUser,isEmailExists ,getUserWithRoleById,getUserSumCart};
