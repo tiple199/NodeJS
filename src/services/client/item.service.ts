@@ -82,7 +82,7 @@ const getProductInCart = async (id: number) => {
             userId: id
         }
     });
-    if(!cart) return null;
+    if(!cart) return [];
     const cartDetails = await prisma.cartDetail.findMany({
         where: {
             cartId: cart.id
