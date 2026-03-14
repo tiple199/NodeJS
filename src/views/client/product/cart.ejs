@@ -68,7 +68,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% cartDetails.forEach(function(cartDetail) { %>
+                            <% cartDetails.forEach(function(cartDetail,index) { %>
                             <tr>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
@@ -94,6 +94,7 @@
                                         <input type="text" class="form-control form-control-sm text-center border-0"
                                         data-cart-detail-id="<%=cartDetail.id %>"
                                         data-cart-detail-price="<%=cartDetail.price %>"
+                                        data-cart-detail-index="<%=index%>"
 
                                         value="<%=cartDetail.quantity%>">
                                         <div class="input-group-btn">
@@ -107,9 +108,13 @@
                                     <p class="mb-0 mt-4" data-cart-detail-id="<%=cartDetail.id %>"><%= new Intl.NumberFormat('vi-VN', { style: 'currency' , currency: 'VND' }).format(cartDetail.product.price * cartDetail.quantity)%></p>
                                 </td>
                                 <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
+                                    <form action="/delete-product-in-cart/<%=cartDetail.id %>" method="post">
+                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
+                                            <i class="fa fa-times text-danger">
+
+                                            </i>
+                                        </button>
+                                    </form>
                                 </td>
         
                             </tr>
@@ -148,8 +153,27 @@
                                 <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
                                 <p class="mb-0 pe-4" data-cart-total-price="<%= totalPrice %>"><%= new Intl.NumberFormat('vi-VN', { style: 'currency' , currency: 'VND' }).format(totalPrice)%></p>
                             </div>
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                                type="button">Proceed Checkout</button>
+                            <form action="/handle-cart-to-checkout" method="post">
+                                <div style="display: none">
+                                    <% cartDetails.forEach( function (cartDetail, index) { %>
+                                        <div class="mb-3">
+                                            <div class="form-group">
+                                                <label>Id:</label>
+                                                <input class="form-control" type="text" value="<%=cartDetail.id %>"
+                                                    name="cartDetails[<%= index %>][id]" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Quantity:</label>
+                                                <input class="form-control" type="text" value="<%=cartDetail.quantity %>"
+                                                    name="cartDetails[<%= index %>][quantity]" id="cartDetails[<%= index %>]" />
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+
+                                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                                type="submit">Proceed Checkout</button>
+                            </form>
                         </div>
                         </div>
                     </div>

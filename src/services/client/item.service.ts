@@ -93,4 +93,57 @@ const getProductInCart = async (id: number) => {
     })
     return cartDetails ?? [];
 }
-export { getProducts,getProductById,addProductToCart,getProductInCart };
+
+const handleDeleteInCart = async (id: number) => {
+    const cartDetail = await prisma.cartDetail.findUnique({
+        where: {
+            id
+        }
+    });
+    if(cartDetail){
+        await prisma.cartDetail.delete({
+            where: {
+                id
+            }
+        });
+        const cart = await prisma.cart.findUnique({
+            where: {
+                id: cartDetail.cartId
+            }
+        });
+        if(cart.sum - cartDetail.quantity > 0){
+            await prisma.cart.update({
+                where: {
+                    id: cartDetail.cartId
+                },
+                data: {
+                    sum: {
+                        decrement: cartDetail.quantity
+                    }
+                }            });
+        }
+        else{
+            await prisma.cart.delete({
+                where: {
+                    id: cartDetail.cartId
+                }
+            });
+            
+        }
+
+    }
+}
+
+const updateCartDetailBeforeCheckOut = async (cartDetails: {id: string, quantity: string}[]) => {
+    for(const cartDetail of cartDetails){
+        await prisma.cartDetail.update({
+            where: {
+                id: +cartDetail.id
+            },
+            data: {
+                quantity: +cartDetail.quantity
+            }
+        });
+    }
+}
+export { getProducts,getProductById,addProductToCart,getProductInCart,handleDeleteInCart,updateCartDetailBeforeCheckOut };
