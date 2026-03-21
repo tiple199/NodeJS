@@ -2,11 +2,12 @@ import express,{Express} from "express";
 import { getHomePage, postCreateUser,postDeleteUser,getViewUser,postUpdateUser } from "controllers/user.controller";
 import { getDashboardPage,getAdminUserPage,getAdminOrderPage,getCreateUserPage,getAdminProductPage } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
-import { getCartPage, getCheckOutPage, getProductPage, postAddProductToCart, postDeleteProductInCart, postHandleCartToCheckOut } from "controllers/client/product.controller";
+import { getCartPage, getCheckOutPage, getProductPage, getThanksPage, postAddProductToCart, postAddToCartFromDetailPage, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder } from "controllers/client/product.controller";
 import { getAdminCreateProductPage,getViewProduct,postAdminCreateProduct,postDeleteProduct, postUpdateProduct } from "controllers/admin/product.controller";
 import { getLoginPage, getRegisterPage,getSuccessRedirectPage,postLogout,postRegister } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
+import { getOrderHistoryPage, getViewOrder } from "controllers/admin/order.controller";
 
 
 const router = express.Router();
@@ -33,6 +34,11 @@ const webRoutes = (app: Express) => {
     router.post("/delete-product-in-cart/:id",postDeleteProductInCart);
     router.post("/handle-cart-to-checkout",postHandleCartToCheckOut);
     router.get("/checkout",getCheckOutPage);
+    router.post("/place-order",postPlaceOrder);
+    router.get("/thanks",getThanksPage);
+
+    router.get("/order-history", getOrderHistoryPage);
+    router.post("/add-to-cart-from-detail-page/:id", postAddToCartFromDetailPage);
 
 
     // router.get("/create-user",getCreateUserPage);
@@ -59,7 +65,10 @@ const webRoutes = (app: Express) => {
     router.get("/admin/view-product/:id",getViewProduct);
     router.post("/admin/create-product",fileUploadMiddleware("image","images/product"),postAdminCreateProduct);
 
-    // router.get("/admin/order", getAdminOrderPage);
+
+    
+    router.get("/admin/order", getAdminOrderPage);
+    router.get("/admin/order/:id", getViewOrder);
 
     app.use("/",isAdmin, router);
 }

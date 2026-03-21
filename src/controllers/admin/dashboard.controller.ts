@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
+import { getDashBoardInfo } from "services/admin/dashboard.service";
 import { getProductList } from "services/admin/product.service";
+import {  getOrderAdmin } from "services/client/item.service";
 import { getAllRoles, getAllUsers } from "services/user.service";
 const getDashboardPage = async (req: Request,res: Response) => {
+    const info = await getDashBoardInfo();
     
-    return res.render("admin/dashboard/show");
+    return res.render("admin/dashboard/show", {info});
 }
 const getAdminUserPage = async (req: Request,res: Response) => {
     const users = await getAllUsers();
@@ -18,8 +21,9 @@ const getCreateUserPage = async (req: Request,res: Response) => {
 
 
 const getAdminOrderPage = async (req: Request,res: Response) => {
+    const orders = await getOrderAdmin();
     
-    return res.render("admin/order/show");
+    return res.render("admin/order/show", {orders:orders});
 }
 const getAdminProductPage = async (req: Request,res: Response) => {
     const products = await getProductList();

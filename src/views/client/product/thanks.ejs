@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cảm ơn - Laptopshop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/client/css/style.css" rel="stylesheet">
+
+    <style>
+        .transition-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.3s ease;
+        }
+        .success-icon {
+            font-size: 8rem;
+            animation: bounceIn 0.8s ease;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar start -->
+    <%- include('../layout/header'); %>
+    <!-- Navbar End -->
+
+    <!-- Thank You Section -->
+    <div class="container-fluid py-5 mt-5">
+        <div class="container py-5 text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="mb-4">
+                        <i class="bi bi-check-circle-fill text-primary success-icon"></i>
+                    </div>
+                    <h1 class="display-3 mb-2 fw-bold text-dark">Tuyệt vời!</h1>
+                    <h2 class="mb-4 text-secondary">Đơn hàng của bạn đã được đặt thành công</h2>
+                    
+                    <div class="bg-light p-5 rounded-4 mb-5 shadow-sm border border-1">
+                        <p class="fs-5 text-muted mb-0">
+                            Chào mừng bạn đã gia nhập cộng đồng khách hàng của <strong>Laptopshop</strong>. 
+                            Chúng tôi đã nhận được thông tin đơn hàng và đang nỗ lực chuẩn bị để giao tới bạn sớm nhất có thể.
+                        </p>
+                        <hr class="my-4 mx-auto w-25">
+                        <p class="mb-0 text-muted">
+                            Một email xác nhận chi tiết đã được gửi tới hòm thư của bạn. <br>
+                            Bạn cũng có thể theo sát trạng thái đơn hàng của mình tại mục 
+                            <a href="/profile" class="text-primary fw-600">Lịch sử mua hàng</a>.
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-center flex-column flex-sm-row gap-4">
+                        <a href="/" class="btn border-secondary rounded-pill py-3 px-5 text-primary bg-white shadow-sm transition-hover">
+                            <i class="fas fa-home me-2"></i>Về trang chủ
+                        </a>
+                        
+                    </div>
+
+                    <div class="mt-5 pt-4">
+                        <p class="text-muted">Cần hỗ trợ? Liên hệ ngay với chúng tôi qua hotline: 
+                            <a href="tel:19001234" class="text-primary fw-bold">1900 1234</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Thank You Section End -->
+
+    <!-- Footer Start -->
+    <%- include('../layout/footer'); %>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/client/lib/easing/easing.min.js"></script>
+    <script src="/client/lib/waypoints/waypoints.min.js"></script>
+    <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/client/js/main.js"></script>
+</body>
+
+</html>

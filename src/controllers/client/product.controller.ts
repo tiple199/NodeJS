@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addProductToCart, getProductById, getProductInCart, handleDeleteInCart, updateCartDetailBeforeCheckOut,  } from "services/client/item.service";
+import { addProductToCart, getProductById, getProductInCart, handleDeleteInCart, handlerPlaceOrder, updateCartDetailBeforeCheckOut,  } from "services/client/item.service";
 const getProductPage = async (req: Request,res: Response) => {
     const { id } = req.params;
     const product = await getProductById(+id);
@@ -64,7 +64,47 @@ const postHandleCartToCheckOut = async (req: Request,res: Response) => {
         return res.redirect("/checkout");
 }
 
+const postPlaceOrder = async (req: Request,res: Response) => {
+    const user = req.user;
+    if(!user){
+        return res.redirect("/login");
+    }
+    const {receiverName,receiverAddress,receiverPhone,totalPrice} = req.body;
 
 
 
-export { getProductPage,postAddProductToCart,getCartPage,postHandleCartToCheckOut,postDeleteProductInCart,getCheckOutPage};
+    const message = await handlerPlaceOrder(user.id,receiverName,receiverAddress,receiverPhone,totalPrice);
+    if(message){
+    return res.redirect("/checkout");
+    }
+    return res.redirect("/thanks");
+    
+}
+const getThanksPage = async (req: Request,res: Response) => {
+    const user = req.user;
+    if(!user){
+        return res.redirect("/login");
+    }
+
+    return res.render("client/product/thanks.ejs");
+}
+
+const postAddToCartFromDetailPage = async (req: Request,res: Response) => {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const user = req.user;
+    if(user){
+        await addProductToCart(+quantity, +id, user);
+        return res.redirect("/product/" + id);
+    }else{
+        return res.redirect("/login");
+    }
+}
+
+
+
+
+
+export { getProductPage,postAddProductToCart,getCartPage,
+    postHandleCartToCheckOut,postDeleteProductInCart,getCheckOutPage
+    ,postPlaceOrder,getThanksPage,postAddToCartFromDetailPage };

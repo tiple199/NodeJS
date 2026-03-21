@@ -84,4 +84,6 @@ const postUpdateProduct = async (req: Request, res: Response) => {
 
 }
 
+
+
 export { getAdminCreateProductPage, postAdminCreateProduct,postDeleteProduct,getViewProduct,postUpdateProduct };

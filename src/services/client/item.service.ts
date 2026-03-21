@@ -135,6 +135,7 @@ const handleDeleteInCart = async (id: number) => {
 }
 
 const updateCartDetailBeforeCheckOut = async (cartDetails: {id: string, quantity: string}[]) => {
+    
     for(const cartDetail of cartDetails){
         await prisma.cartDetail.update({
             where: {
@@ -145,5 +146,133 @@ const updateCartDetailBeforeCheckOut = async (cartDetails: {id: string, quantity
             }
         });
     }
+
+    const quantitySum = cartDetails.reduce((sum, item) => sum + +item.quantity, 0);
+    const cartId =  await prisma.cartDetail.findFirst({
+        where: {
+            id: +cartDetails[0].id
+        },
+    }).then(res => res?.cartId);
+    if(cartId){
+        await prisma.cart.update({
+            where: {
+                id: cartId
+            },
+            data: {
+                sum: quantitySum
+            }
+        });
+    }
+    
+
+
 }
-export { getProducts,getProductById,addProductToCart,getProductInCart,handleDeleteInCart,updateCartDetailBeforeCheckOut };
+
+const handlerPlaceOrder = async (userId: number, receiverName: string, receiverAddress: string, receiverPhone: string,totalPrice: number) => {
+    
+    try {
+
+        await prisma.$transaction(async (tx) => {
+        
+        
+        const cart = await tx.cart.findUnique({
+            where: {
+                userId
+            },
+            include: {
+                cartDetails: true
+            }
+        });
+        if(cart){
+            const dataOrderDetails = cart?.cartDetails.map(item => ({
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.price
+            })) ?? [];
+
+            await tx.order.create({
+                data: {
+                    userId,
+                    receiverName,
+                    receiverAddress,
+                    receiverPhone,
+                    totalPrice: +totalPrice,
+                    paymentMethod: "COD",
+                    paymentStatus: "PAYMENT_UNPAID",
+                    status: "UNPAID",
+                    orderDetails: {
+                        create: dataOrderDetails
+                    }
+
+            }});
+
+            // remove cart after place order
+            await tx.cartDetail.deleteMany({
+                where: {
+                    cartId: cart.id
+                }
+            });
+
+            await tx.cart.delete({
+                where: {
+                    id: cart.id
+                }
+            });
+
+            // check product
+            for(const cartDetail of cart.cartDetails){
+                const product = await tx.product.findUnique({
+                    where: {
+                        id: cartDetail.productId
+                    }
+                });
+                if(!product || product.quantity < cartDetail.quantity){
+                    throw new Error(`Sản phẩm ${product?.name ?? "unknown"} không đủ số lượng để đặt hàng`);
+                }
+                await tx.product.update({
+                    where: {
+                        id: cartDetail.productId
+                    },
+                    data: {
+                        quantity: {
+                            decrement: cartDetail.quantity
+                        },
+                        sold: {
+                            increment: cartDetail.quantity
+                        }
+                    }
+                });
+            }
+        }
+        });
+        return "";
+    }
+    catch (error) {
+        return error.message;
+    }
+}
+
+const getOrderAdmin = async () => {
+    return await prisma.order.findMany({
+        include: {
+            user: true
+        }
+    });
+}
+
+const handleViewOrderByUserId = async (userId: number) => {
+    return await prisma.order.findMany({
+        where: {
+            userId
+        },
+        include: {
+            orderDetails: {
+                include: {
+                    product: true
+                }
+            }
+        }
+    });
+}
+export { getProducts,getProductById,addProductToCart,getProductInCart
+    ,handleDeleteInCart,updateCartDetailBeforeCheckOut,handlerPlaceOrder,getOrderAdmin,handleViewOrderByUserId };
