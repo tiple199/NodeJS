@@ -9,7 +9,14 @@ const getDashboardPage = async (req: Request,res: Response) => {
     return res.render("admin/dashboard/show", {info});
 }
 const getAdminUserPage = async (req: Request,res: Response) => {
-    const users = await getAllUsers();
+
+    const {page} = req.query;
+    let currentPage = page ? +page : 1;
+    if(currentPage < 0){
+        currentPage = 1;
+    }
+
+    const users = await getAllUsers(+currentPage);
 
     
     return res.render("admin/user/show",{users:users});

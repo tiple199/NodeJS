@@ -28,8 +28,16 @@ const handleCreateUser =  async (fullName: string, username: string, address: st
   return user;
 }
 
-const getAllUsers = async () => {
-    const users = await prisma.user.findMany();
+const getAllUsers = async (page: number) => {
+    const pageSize = 3;
+    const skip = (page - 1) * pageSize;
+   
+    const users = await prisma.user.findMany(
+      {
+        skip: skip,
+        take: pageSize,
+      }
+    );
     return users;
 }
 const getAllRoles = async () => {
