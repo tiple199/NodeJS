@@ -28,7 +28,7 @@
                                 <li class="breadcrumb-item active">Products</li>
                             </ol>
                             <div>
-                                <div style="display: flex;justify-content: space-between;align-items: center;">
+                                <div style="display: flex;justify-content: space-between;align-items: center; margin-bottom: 15px;">
                                     <h5>Table Products:</h5>
                                     <div>
                                         <a href="/admin/create-product" class="btn btn-warning">Create a new product</a>
@@ -75,6 +75,33 @@
 
                                     </tbody>
                                 </table>
+
+                                <nav aria-label="Page navigation  example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item">
+                                            <a class="<%= currentPage === 1 ? 'page-link disabled' : 'page-link' %>" href="/admin/product?page=<%=currentPage-1%>"
+                                                aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                
+                                        <% for(var i=1; i <= totalPages; i++) {%>
+                                            <li class="page-item"><a class="<%= currentPage === i ? 'page-link active' : 'page-link' %>"
+                                                    href="/admin/product?page=<%= i %>">
+                                                    <%= i %>
+                                                </a></li>
+                                
+                                            <% } %>
+                                
+                                
+                                                <li class="page-item">
+                                                    <a class="<%= currentPage === totalPages ? 'page-link disabled' : 'page-link' %>"
+                                                        href="/admin/product?page=<%=currentPage+1%>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
 

@@ -1,7 +1,13 @@
 import { prisma } from "config/client";
+import { TOTAL_ITEMS_PER_PAGE } from "config/constant";
 
-const getProducts = async () => {
-    const products = await prisma.product.findMany();
+const getProducts = async (currentPage: number,pageSize: number) => {
+    const products = await prisma.product.findMany(
+        {
+            skip: (currentPage - 1) * pageSize,
+            take: pageSize,
+        }
+    );
     return products;
 }
 
@@ -252,11 +258,17 @@ const handlerPlaceOrder = async (userId: number, receiverName: string, receiverA
     }
 }
 
-const getOrderAdmin = async () => {
+const getOrderAdmin = async (page: number) => {
+    const pageSize = TOTAL_ITEMS_PER_PAGE;
     return await prisma.order.findMany({
         include: {
             user: true
-        }
+        },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+   
+
+
     });
 }
 
@@ -274,5 +286,13 @@ const handleViewOrderByUserId = async (userId: number) => {
         }
     });
 }
+const countTotalProductClientPage = async (pageSize: number) => {
+    const countProducts = await prisma.product.count();
+    const totalPages = Math.ceil(countProducts / pageSize);
+    return totalPages;
+}
+
+
 export { getProducts,getProductById,addProductToCart,getProductInCart
-    ,handleDeleteInCart,updateCartDetailBeforeCheckOut,handlerPlaceOrder,getOrderAdmin,handleViewOrderByUserId };
+    ,handleDeleteInCart,updateCartDetailBeforeCheckOut,handlerPlaceOrder,
+    getOrderAdmin,handleViewOrderByUserId,countTotalProductClientPage };

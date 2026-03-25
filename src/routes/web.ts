@@ -1,5 +1,5 @@
 import express,{Express} from "express";
-import { getHomePage, postCreateUser,postDeleteUser,getViewUser,postUpdateUser } from "controllers/user.controller";
+import { getHomePage, postCreateUser,postDeleteUser,getViewUser,postUpdateUser, getProductFilterPage } from "controllers/user.controller";
 import { getDashboardPage,getAdminUserPage,getAdminOrderPage,getCreateUserPage,getAdminProductPage } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
 import { getCartPage, getCheckOutPage, getProductPage, getThanksPage, postAddProductToCart, postAddToCartFromDetailPage, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder } from "controllers/client/product.controller";
@@ -16,6 +16,8 @@ const router = express.Router();
 const webRoutes = (app: Express) => {
     // client
     router.get("/", getHomePage);
+    router.get("/products", getProductFilterPage);
+
     router.get("/success-redirect", getSuccessRedirectPage);
     router.get("/product/:id", getProductPage);
     router.get("/login",getLoginPage);
@@ -70,7 +72,8 @@ const webRoutes = (app: Express) => {
     router.get("/admin/order", getAdminOrderPage);
     router.get("/admin/order/:id", getViewOrder);
 
-    app.use("/",isAdmin, router);
+
+    app.use("/", isAdmin, router);
 }
 
 export default webRoutes;
